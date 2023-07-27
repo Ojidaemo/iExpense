@@ -15,7 +15,7 @@ extension View {
         case 10..<100:
             return self.font(.title3)
         default:
-            return self.font(.title)
+            return self.font(.title2)
         }
     }
 }

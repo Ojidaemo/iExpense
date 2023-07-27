@@ -12,6 +12,7 @@ struct ExpenseSetion: View {
     let title: String
     let expenses: [ExpenseItem]
     let deleteItems: (IndexSet) -> Void
+    var totalAmount: Double
     
     var body: some View {
         Section(title) {
@@ -28,6 +29,13 @@ struct ExpenseSetion: View {
                 }
             }
             .onDelete(perform: deleteItems)
+            HStack {
+                Text("Total")
+                    .font(.title2.bold())
+                Spacer()
+                Text(totalAmount, format: .localCurrency)
+                    .font(.title2.bold())
+            }
         }
     }
 }

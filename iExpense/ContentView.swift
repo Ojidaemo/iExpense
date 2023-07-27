@@ -11,11 +11,19 @@ struct ContentView: View {
     @StateObject var expenses = Expenses()
     @State private var showingAddExpense = false
     
+    private var totalAmountBusiness: Double {
+        totalAmount(in: expenses.businessItems)
+    }
+    private var totalAmountPersonal: Double {
+        totalAmount(in: expenses.personalItems)
+    }
+    
     var body: some View {
         NavigationStack {
             List {
-                ExpenseSetion(title: "Business", expenses: expenses.businessItems, deleteItems: removeBusinessItems)
-                ExpenseSetion(title: "Personal", expenses: expenses.personalItems, deleteItems: removePersonalItems)
+                ExpenseSetion(title: "Business", expenses: expenses.businessItems, deleteItems: removeBusinessItems, totalAmount: totalAmountBusiness)
+                ExpenseSetion(title: "Personal", expenses: expenses.personalItems, deleteItems: removePersonalItems, totalAmount: totalAmountPersonal)
+                
             }
             .navigationTitle("iExpense")
             .toolbar {
@@ -31,6 +39,8 @@ struct ContentView: View {
             }
         }
     }
+    
+    //MARK: - Methods
     
     func removeItems(at offsets: IndexSet, in inputArray: [ExpenseItem]) {
         var objectsToDelete = IndexSet()
@@ -52,10 +62,18 @@ struct ContentView: View {
         removeItems(at: offsets, in: expenses.businessItems)
     }
     
-}
     
-    struct ContentView_Previews: PreviewProvider {
-        static var previews: some View {
-            ContentView()
+    func totalAmount(in inputArray: [ExpenseItem]) -> Double {
+        var sum: Double = 0.0
+        for item in inputArray {
+            sum += item.amount
         }
+        return sum
     }
+}
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
+}
